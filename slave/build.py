@@ -272,7 +272,7 @@ def getBuilder(config, path):
         return WebkitBuilder(config, path)
     if os.path.exists(os.path.join(path, "v8", "LICENSE.v8")):
         return V8Builder(config, path)
-    if os.path.exists(os.path.join(path, "mach")):
+    if os.path.exists(os.path.join(path, "components", "servo")):
         return ServoBuilder(config, path)
 
     raise Exception("Unknown builder")
