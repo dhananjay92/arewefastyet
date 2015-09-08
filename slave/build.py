@@ -243,6 +243,27 @@ class V8Builder(Builder):
     def binary(self):
         return os.path.join(self.objdir(), 'd8')
 
+class ServoBuilder(Builder):
+    def __init__(self, config, folder):
+        super(ServoBuilder, self).__init__(config, folder);
+        # Some other config here
+    
+    def retrieveInfo(self):
+        info = {}
+        info["engine_type"] = "servo"
+        return info
+
+    def objdir(self):
+        return os.path.join(self.folder, 'target')
+
+    def binary(self):
+        return os.path.join(self.objdir(), 'release', 'servo')
+
+    def make(self):
+        with utils.FolderChanger(self.folder):
+            args = [os.path.join('.', 'mach'), 'build' ,'--release']
+            Run(args, self.env.get())
+
 def getBuilder(config, path):
     # fingerprint the known builders
     if os.path.exists(os.path.join(path, "js", "src")):
@@ -251,6 +272,8 @@ def getBuilder(config, path):
         return WebkitBuilder(config, path)
     if os.path.exists(os.path.join(path, "v8", "LICENSE.v8")):
         return V8Builder(config, path)
+    if os.path.exists(os.path.join(path, "components", "servo")):
+        return ServoBuilder(config, path)
 
     raise Exception("Unknown builder")
 
