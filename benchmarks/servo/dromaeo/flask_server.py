@@ -1,5 +1,8 @@
 import json
+import os
 from flask import Flask, request
+
+import dromaeo_utils
 
 app = Flask(__name__)
 
@@ -7,10 +10,11 @@ app = Flask(__name__)
 @app.route("/store_results", methods=['POST'])
 def store_results():
     results = request.get_json(force=True)
-    with open('results/results.json', 'a') as results_file:
+    with open(os.path.join(dromaeo_utils.config.ResultsDir, 'results.json'), 'a') as results_file:
         json.dump(results, results_file)
     return "SUCCESS"
 
 if __name__ == "__main__":
     app.debug = True
-    app.run()
+    dromaeo_utils.config.init("dromaeo.conf")
+    app.run(port=dromaeo_utils.config.Port)
