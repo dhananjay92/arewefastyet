@@ -28,12 +28,15 @@ var prep = prep || function(fn){ fn(); };
 		};
 
 		sendResults(results_json);
+
+		// Automatically close the browser instance after 200 ms
+		setTimeout(window.close(), 200);
 	};
 
 	sendResults = function(results) {
 		var results = JSON.stringify(results);
 		xmlhttp = new XMLHttpRequest();
-		xmlhttp.open("POST", "../../store_results");
+		xmlhttp.open("POST", "/store_results");
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.send(results);
 	};
