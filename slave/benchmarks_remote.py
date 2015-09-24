@@ -61,7 +61,8 @@ class Octane(Benchmark):
 class Dromaeo(Benchmark):
     def __init__(self):
         Benchmark.__init__(self, "dromaeo", "1.0")
-        self.url = 'http://' + self.suite + ".localhost:8000/?recommended"
+        # TMP CHANGE: Remove before committing
+        self.url = 'http://' + self.suite + ".localhost:8000/?3d"
 
     def processResults(self, results):
         ret = []
