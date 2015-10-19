@@ -5,7 +5,7 @@
 "use strict";
 var AWFY = { };
 
-AWFY.DEFAULT_MACHINE_ID = 28;
+AWFY.DEFAULT_MACHINE_ID = 1;
 AWFY.refreshTime = 60 * 5;
 AWFY.machineId = 0;
 AWFY.hasLegend = false;
@@ -19,15 +19,10 @@ AWFY.subtest = null;
 AWFY.lastHash = null;
 AWFY.lastRefresh = 0;
 
-// Hide a view modes by default. Since they aren't active anymore
-AWFYMaster.modes["35"].hidden = true
-AWFYMaster.modes["27"].hidden = true
-AWFYMaster.modes["29"].hidden = true
-AWFYMaster.modes["22"].hidden = true
-
 AWFY.request = function (files, callback) {
     var url = window.location.protocol + '//' +
-              window.location.host;
+              window.location.host + "/" +
+              window.location.pathname;
     if (url[url.length - 1] != '/')
         url += '/';
     url += 'data.php?file=';
@@ -553,10 +548,7 @@ AWFY.showOverview = function () {
     this.subtest = null
     this.start = null
     this.end = null
-    this.panes = [$('#ss-graph'),
-                  $('#kraken-graph'),
-                  $('#octane-graph')
-                 ];
+    this.panes = [$('#dromaeo-graph')];
 
     this.request(['aggregate-' + this.machineId], this.computeAggregate.bind(this));
     this.lastRefresh = Date.now();
@@ -986,9 +978,7 @@ AWFY.updateSuiteList = function (machineId) {
 }
 
 AWFY.startup = function () {
-    this.panes = [$('#ss-graph'),
-                  $('#kraken-graph'),
-                  $('#octane-graph')];
+    this.panes = [$('#dromaeo-graph')];
 
     this.parseURL();
 
